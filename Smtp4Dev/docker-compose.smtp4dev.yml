@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    container_name: smtp4dev_local
+    ports:
+      - "8080:8080"
+      #- "25:25"
+      #- "143:143"
+    volumes:
+      - smtp4dev_data:/smtp4dev
+    environment:
+        #Specifies the server hostname. Used in auto-generated TLS certificate if enabled.
+      - ServerOptions__HostName=smtp4dev
+        #More environment variables can be found here https://github.com/rnwood/smtp4dev/blob/master/docker-compose.yml
+volumes:
+  smtp4dev_data:

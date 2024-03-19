@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: mssql_local
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA="Y"
+      - MSSQL_SA_PASSWORD=1AW9YzvtFC7z

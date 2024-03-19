@@ -1,0 +1,1 @@
+mongorestore --gzip --archive=/db_dump/dump.gz

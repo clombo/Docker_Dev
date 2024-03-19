@@ -1,0 +1,6 @@
+version: '3.8'
+
+include:
+  - MsSql/docker-compose.mssql.yml
+  - Postgres/docker-compose.postgres.yml
+  - RabbitMq/docker-compose.rabbitmq.yml

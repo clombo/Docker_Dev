@@ -1,0 +1,22 @@
+version: '3.8'
+
+include:
+  - Volumes/docker-compose.volumes.yml
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres_local
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_MULTIPLE_DATABASES=FCMaster
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_local:/var/lib/postgresql/data
+      - ./Scripts/:/docker-entrypoint-initdb.d
+volumes:
+  postgres_local:
+  
