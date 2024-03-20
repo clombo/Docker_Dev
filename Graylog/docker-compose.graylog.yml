@@ -1,8 +1,12 @@
 version: '3.8'
 
+include:
+  - ../Mongo/docker-compose.mongo.yml
+
 services:
   opensearch:
       image: "opensearchproject/opensearch:1.3.0"
+      container_name: opensearch
       environment:
         - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
         - "bootstrap.memory_lock=true"
@@ -18,18 +22,22 @@ services:
           soft: 65536
           hard: 65536
       volumes:
-        - os_data:/usr/share/opensearch/data
+        - os_localdata:/usr/share/opensearch/data
       restart: "on-failure"
       networks:
-       - fcnet
+        devnet:
+          aliases:
+            - opensearch
+      
 
   graylog:
       hostname: "server"
       image: "${GRAYLOG_IMAGE:-graylog/graylog:4.3.15}"
+      container_name: graylog_local
       depends_on:
         opensearch:
           condition: "service_started"
-        tmsdata:
+        mongodb:
           condition: "service_started"
       entrypoint: "/usr/bin/tini -- wait-for-it opensearch:9200 --  /docker-entrypoint.sh"
       environment:
@@ -39,7 +47,7 @@ services:
         GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
         GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
         GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch:9200"
-        GRAYLOG_MONGODB_URI: "mongodb://tmsdata:27017/graylog"
+        GRAYLOG_MONGODB_URI: "mongodb://mongo_local:27017/graylog"
       ports:
       # Most ports can be commented out because it is used internally. Only the Server API/UI should be accessable from the outside
       #- "5044:5044/tcp"   # Beats
@@ -55,7 +63,18 @@ services:
       #- "13301:13301/tcp" # Forwarder data
       #- "13302:13302/tcp" # Forwarder config
       volumes:
-        - graylog_data:/usr/share/graylog/data/data
-        - graylog_journal:/usr/share/graylog/data/journal
+        - graylog_localdata:/usr/share/graylog/data/data
+        - graylog_localjournal:/usr/share/graylog/data/journal
       networks:
-        - fcnet
+        devnet:
+          aliases:
+            - graylog_local
+
+networks:
+  devnet:
+    external: true
+
+volumes:
+  os_localdata:
+  graylog_localdata:
+  graylog_localjournal:

@@ -1,4 +1,4 @@
-# Docker Development environment
+# Docker Development Environment
 
 This repository comprises of a collection of dev tools that I use in my day to day.
 
