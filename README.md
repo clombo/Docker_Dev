@@ -95,5 +95,10 @@ Graylog allows you to enrich, correlate, query, and visualize your log informati
 ### MongoDb
 ### MsSql
 ### Postgres
+
+The postgres container allows you to spin up a postgres instance with a single or multiple databases.
+
+Specify all your databases (comma seperated) using the `POSTGRES_MULTIPLE_DATABASES` environment variable. The `create-multiple-postgres-databases.sh` will create the databases for you.
+
 ### RabbitMq
 ### Smtp4Dev

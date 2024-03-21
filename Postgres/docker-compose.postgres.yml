@@ -11,7 +11,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin
-      - POSTGRES_MULTIPLE_DATABASES=FCMaster
+      - POSTGRES_MULTIPLE_DATABASES=SomeDatabase
     ports:
       - '5432:5432'
     volumes:
