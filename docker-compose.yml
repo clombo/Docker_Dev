@@ -4,8 +4,7 @@ include:
   #- MsSql/docker-compose.mssql.yml
   #- Postgres/docker-compose.postgres.yml
   #- RabbitMq/docker-compose.rabbitmq.yml
-  #- Mongo/docker-compose.mongo.yml
-  #NOTE: When graylog in included make sure Mongo is not included on this level as it is a graylog dependency and is included there
+  - Mongo/docker-compose.mongo.yml
   - Graylog/docker-compose.graylog.yml
 
 networks:

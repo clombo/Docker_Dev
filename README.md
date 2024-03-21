@@ -80,7 +80,18 @@ networks:
 
 ## Current Services
 
+These are all the services currently configured. If the services have dependencies they will have include files in their respective docker compose files.
+
 ### Graylog
+
+Graylog allows you to enrich, correlate, query, and visualize your log information.
+
+#### Dependencies
+- MongoDB
+
+#### References
+- [Docker Install](https://go2docs.graylog.org/5-0/downloading_and_installing_graylog/docker_installation.htm)
+
 ### MongoDb
 ### MsSql
 ### Postgres
