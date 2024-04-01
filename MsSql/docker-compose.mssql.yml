@@ -9,3 +9,6 @@ services:
     environment:
       - ACCEPT_EULA="Y"
       - MSSQL_SA_PASSWORD=1AW9YzvtFC7z
+    volumes:
+      - ./backups:/var/opt/mssql/backup
+      - ./scripts/:/usr/local/scripts
