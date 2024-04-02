@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mssql:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: mcr.microsoft.com/mssql/server:2017-latest  
     container_name: mssql_local
     ports:
       - 1433:1433
@@ -12,3 +12,4 @@ services:
     volumes:
       - ./backups:/var/opt/mssql/backup
       - ./scripts/:/usr/local/scripts
+      - ./profile/.bashrc:/.bashrc

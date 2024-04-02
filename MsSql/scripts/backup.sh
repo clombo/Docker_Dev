@@ -1,28 +1,44 @@
 #!/bin/bash
 
-#Initi variables with default values. These values can be set using -d and -f respectively
+#Initial variables with default values. These values can be set using -d and -f respectively
 #Note they are required
 database=""
 filename=""
 
 # Parse options
-while getopts ":d:f:" opt; do
-  case ${opt} in
-    d ) # Database name
-      database="$OPTARG"
+options=$(getopt -o d:f: --long database:,filename: -n 'script.sh' -- "$@")
+
+if [ $? -ne 0 ]; then
+    echo "Failed to parse options." >&2
+    exit 1
+fi
+
+eval set -- "$options"
+
+# Process options
+while true; do
+  case "$1" in
+    -d | --database ) # database name
+      database="$2"
+      shift 2
       ;;
-    f ) # Filename
-      filename="$OPTARG"
+    -f | --filename ) # file name
+      filename="$2"
+      shift 2
       ;;
-    \? ) echo "Invalid option: $OPTARG" 1>&2
-      exit 1
+    - )
+      shift 2
+      break
       ;;
-    : ) echo "Invalid option: $OPTARG requires an argument" 1>&2
-      exit 1
+    -- )
+      shift 2
+      break
+      ;;
+    * )
+      break
       ;;
   esac
 done
-shift $((OPTIND -1))
 
 # Check if required options are provided
 if [ -z "$database" ]; then
@@ -35,9 +51,8 @@ if [ -z "$filename" ]; then
   exit 1
 fi
 
-# Perform backup using provided options
+
 echo "INFO: Performing backup for database: $database to file: $filename"
 
-
 #Run backup
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "1AW9YzvtFC7z" -Q "BACKUP DATABASE $database TO DISK = '/var/opt/mssql/backup/$filename.bak'"
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P $MSSQL_SA_PASSWORD -Q "BACKUP DATABASE $database TO DISK = '/var/opt/mssql/backup/$filename.bak'"

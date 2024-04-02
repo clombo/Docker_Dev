@@ -94,6 +94,10 @@ Graylog allows you to enrich, correlate, query, and visualize your log informati
 
 ### MongoDb
 ### MsSql
+
+```
+docker exec -it mssql_local bash --init-file .bashrc
+```
 ### Postgres
 
 The postgres container allows you to spin up a postgres instance with a single or multiple databases.
